@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   background: #000;
   color: #fff;
   display: flex;
@@ -9,63 +9,82 @@ body {
   height: 100vh;
 }
 
-.container {
-  width: 90%;
-  max-width: 400px;
+.app {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
 }
 
-.card {
-  background: #111;
-  padding: 30px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+.screen {
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 input {
   width: 100%;
-  padding: 10px;
+  padding: 14px;
   margin: 10px 0;
+  border-radius: 12px;
   border: none;
-  border-radius: 6px;
+  background: #111;
+  color: #fff;
 }
 
 button {
-  background: #ffcc00;
-  border: none;
-  padding: 12px;
   width: 100%;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 6px;
-}
-
-button:disabled {
-  background: #555;
-  cursor: not-allowed;
-}
-
-.meter {
-  width: 100%;
-  height: 20px;
-  background: #333;
-  border-radius: 10px;
-  margin: 15px 0;
-  overflow: hidden;
-}
-
-.progress {
-  height: 100%;
-  width: 0%;
-  background: #ffcc00;
-  transition: width 0.3s ease;
-}
-
-.hidden {
-  display: none;
-}
-
-.result {
+  padding: 16px;
   margin-top: 15px;
+  border-radius: 14px;
+  border: none;
   font-weight: bold;
+  background: linear-gradient(90deg,#FFCC00,#FFA500);
+  color: #000;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.progress-ring {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#percent {
+  position: absolute;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#cooldown {
+  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+#message {
+  margin-top: 20px;
+  font-weight: bold;
+  text-align: center;
 }
