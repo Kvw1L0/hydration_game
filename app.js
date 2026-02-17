@@ -1,97 +1,62 @@
+
 let user = null;
-let cooldownMinutes = 15;
-let prizeProbability = 0.1; // 10% demo
+let cooldown = 15 * 60 * 1000;
+let prizeChance = 0.15;
+let circumference = 2 * Math.PI * 85;
 
-function generateId() {
-  return "SF-" + Math.floor(Math.random() * 999999);
-}
-
-function registerUser() {
+function register() {
   const name = document.getElementById("name").value;
   const email = document.getElementById("email").value;
-
-  if (!name || !email) return alert("Completa los datos");
+  if (!name || !email) return;
 
   user = {
     name,
     email,
-    id: generateId(),
+    id: "SF-" + Math.floor(Math.random()*999999),
     hydration: 0,
     lastRefill: null
   };
 
-  localStorage.setItem("hydrationUser", JSON.stringify(user));
+  document.getElementById("screen-register").classList.remove("active");
+  document.getElementById("screen-dashboard").classList.add("active");
 
-  document.getElementById("registerScreen").classList.add("hidden");
-  document.getElementById("dashboard").classList.remove("hidden");
+  document.getElementById("userName").innerText = name;
+  document.getElementById("userId").innerText = user.id;
 
-  updateDashboard();
+  updateUI();
 }
 
-function loadUser() {
-  const stored = localStorage.getItem("hydrationUser");
-  if (stored) {
-    user = JSON.parse(stored);
-    document.getElementById("registerScreen").classList.add("hidden");
-    document.getElementById("dashboard").classList.remove("hidden");
-    updateDashboard();
-  }
-}
+function updateUI() {
+  const percent = user.hydration;
+  const offset = circumference - (percent / 100) * circumference;
+  const ring = document.getElementById("ring");
 
-function updateDashboard() {
-  document.getElementById("welcome").innerText = "Hola " + user.name;
-  document.getElementById("hydrationId").innerText = user.id;
+  ring.style.strokeDasharray = circumference;
+  ring.style.strokeDashoffset = offset;
+  ring.style.transition = "stroke-dashoffset 0.8s ease";
 
-  document.getElementById("percentage").innerText = user.hydration + "%";
-  document.getElementById("progressBar").style.width = user.hydration + "%";
-
-  checkCooldown();
+  document.getElementById("percent").innerText = percent + "%";
 }
 
 function refill() {
   const now = Date.now();
 
-  if (user.lastRefill && now - user.lastRefill < cooldownMinutes * 60000) {
+  if (user.lastRefill && now - user.lastRefill < cooldown) {
+    document.getElementById("message").innerText = "⏳ Espera tu próximo refill";
     return;
   }
 
   user.lastRefill = now;
   user.hydration = Math.min(user.hydration + 25, 100);
 
-  localStorage.setItem("hydrationUser", JSON.stringify(user));
+  if (navigator.vibrate) navigator.vibrate(100);
 
-  const wonPrize = Math.random() < prizeProbability;
-
-  if (wonPrize) {
-    document.getElementById("result").innerText = "ENERGY BOOST ACTIVADO!";
+  if (Math.random() < prizeChance) {
+    document.getElementById("message").innerText = "⚡ ENERGY BOOST!";
+    confetti({ particleCount: 120, spread: 90 });
   } else {
-    document.getElementById("result").innerText = "Sigue hidratándote!";
+    document.getElementById("message").innerText = "Sigue hidratándote 💪";
   }
 
-  updateDashboard();
+  updateUI();
 }
-
-function checkCooldown() {
-  if (!user.lastRefill) return;
-
-  const now = Date.now();
-  const diff = now - user.lastRefill;
-  const remaining = cooldownMinutes * 60000 - diff;
-
-  const btn = document.getElementById("refillBtn");
-
-  if (remaining > 0) {
-    btn.disabled = true;
-    const minutes = Math.floor(remaining / 60000);
-    const seconds = Math.floor((remaining % 60000) / 1000);
-    document.getElementById("cooldownText").innerText =
-      `Próximo refill en ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-    setTimeout(checkCooldown, 1000);
-  } else {
-    btn.disabled = false;
-    document.getElementById("cooldownText").innerText =
-      "Refill disponible";
-  }
-}
-
-loadUser();
