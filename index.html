@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Hydration System 2.0</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- REGISTRO -->
+    <div id="registerScreen" class="card">
+      <h1>SMART HYDRATION SYSTEM 2.0</h1>
+      <p>Activa tu energía</p>
+      <input type="text" id="name" placeholder="Nombre" />
+      <input type="email" id="email" placeholder="Email" />
+      <button onclick="registerUser()">Activar Hydration ID</button>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="card hidden">
+      <h2 id="welcome"></h2>
+      <p>ID: <span id="hydrationId"></span></p>
+
+      <div class="meter">
+        <div id="progressBar" class="progress"></div>
+      </div>
+      <p>Nivel de hidratación: <span id="percentage">0%</span></p>
+
+      <p id="cooldownText"></p>
+
+      <button id="refillBtn" onclick="refill()">Refill</button>
+
+      <div id="result" class="result"></div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
