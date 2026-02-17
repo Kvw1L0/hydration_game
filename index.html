@@ -1,43 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Hydration System 2.0</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Hydration</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-  <div class="container">
+<div class="app">
 
-    <!-- REGISTRO -->
-    <div id="registerScreen" class="card">
-      <h1>SMART HYDRATION SYSTEM 2.0</h1>
-      <p>Activa tu energía</p>
-      <input type="text" id="name" placeholder="Nombre" />
-      <input type="email" id="email" placeholder="Email" />
-      <button onclick="registerUser()">Activar Hydration ID</button>
+  <div id="screen-register" class="screen active">
+    <h1>SMART HYDRATION</h1>
+    <p>Activa tu energía ⚡</p>
+    <input id="name" placeholder="Nombre">
+    <input id="email" placeholder="Email">
+    <button onclick="register()">ACTIVAR</button>
+  </div>
+
+  <div id="screen-dashboard" class="screen">
+    <div class="header">
+      <span id="userName"></span>
+      <span id="userId"></span>
     </div>
 
-    <!-- DASHBOARD -->
-    <div id="dashboard" class="card hidden">
-      <h2 id="welcome"></h2>
-      <p>ID: <span id="hydrationId"></span></p>
-
-      <div class="meter">
-        <div id="progressBar" class="progress"></div>
-      </div>
-      <p>Nivel de hidratación: <span id="percentage">0%</span></p>
-
-      <p id="cooldownText"></p>
-
-      <button id="refillBtn" onclick="refill()">Refill</button>
-
-      <div id="result" class="result"></div>
+    <div class="progress-ring">
+      <svg width="200" height="200">
+        <circle cx="100" cy="100" r="85" stroke="#222" stroke-width="15" fill="none"/>
+        <circle id="ring" cx="100" cy="100" r="85" stroke="#FFCC00" stroke-width="15"
+          stroke-linecap="round"
+          fill="none"
+          stroke-dasharray="534"
+          stroke-dashoffset="534"/>
+      </svg>
+      <div id="percent">0%</div>
     </div>
+
+    <button id="refillBtn" onclick="refill()">REFILL ⚡</button>
+
+    <div id="cooldown"></div>
+    <div id="message"></div>
 
   </div>
 
-  <script src="app.js"></script>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
